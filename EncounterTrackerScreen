@@ -1,0 +1,152 @@
+package com.example.pathfinderencountertracker;
+
+import android.widget.Button;
+import android.widget.ScrollView;
+import android.widget.EditText;
+import sofia.app.Screen;
+import sofia.graphics.Color;
+import sofia.graphics.RectangleShape;
+import java.util.List;
+import java.util.ArrayList;
+import sofia.app.ShapeScreen;
+import android.widget.TextView;
+import sofia.graphics.RectangleShape;
+import sofia.app.*;
+
+// -------------------------------------------------------------------------
+/**
+ * Write a one-sentence summary of your class here. Follow it with additional
+ * details about its purpose, what abstraction it represents, and how to use it.
+ *
+ * @author sarj21
+ * @version Apr 24, 2015
+ */
+public class MonsterListScreen
+    extends Screen
+{
+
+    private Creature            monster;
+
+    private boolean             added;
+    private boolean             removed;
+
+    private RectangleShape[]    cell;
+    private ArrayList<Creature> yourList;
+
+    /**
+     * this is the name of the list
+     */
+    private EditText            searchMonsters;
+    private EditText            encounterName;
+
+    private ScrollView          scrollView;
+
+    private Button              remove;
+    private Button              add;
+
+    /**
+     * This starts the list
+     */
+    public void initialize()
+    {
+        // this returns a bundle
+        ;
+        yourList = new ArrayList<Creature>();
+
+        cell = new RectangleShape[16];
+
+    }
+
+
+
+    {
+        // or
+        // for(Monster: MonsterList)
+        // {
+        // cell[x1][y1] = this.getShapes().locatedAt(x, y)
+        // .withClass(RectangleShape.class).front();
+        // this.add(cell[x1][y1])
+        // Monstername#1..2..3.setText(MonsterList.getcurrent.getName)
+        // x++;
+        // y++;
+        // }
+
+    }
+
+
+    /**
+     * This is add clicked
+     */
+    public void addClicked()
+    {
+
+        for (int i = 0; i < CreaturesList.CREATURELIST.length; i++)
+        {
+            if (CreaturesList.CREATURELIST[i].getCreatureName().equals(
+                searchMonsters.getText().toString()))
+            {
+                yourList.add(CreaturesList.CREATURELIST[i]);
+            }
+        }
+
+
+    }
+
+
+    /**
+     * This is remove
+     */
+    public void removeClicked()
+    {
+        for (int i = 0; i < CreaturesList.CREATURELIST.length; i++)
+        {
+            if (CreaturesList.CREATURELIST[i].getCreatureName().equals(
+                searchMonsters.getText().toString()))
+            {
+                yourList.remove(CreaturesList.CREATURELIST[i]);
+            }
+        }
+
+    }
+
+
+
+    /**
+     * This is when the input any point on screen is touched
+     *
+     * @param x
+     *            is the screen touch x
+     * @param y
+     *            is the screen touch y
+     */
+    /*
+     * public void onTouchDown(float x, float y) { if (x > 0 && y > 0 && x <
+     * this.getWidth() && y < this.getHeight()) //^^shapescreen { if(add) {
+     * yourList.add(MonsterList.getCurrent()); } else if(remove) {
+     * yourList.remove(MonsterList.getCurrent()); } } }
+     */
+
+    /**
+     * This is when the input any point on screen is touched
+     *
+     * @param x
+     *            is the screen touch
+     * @param y
+     *            is the screen touch y
+     */
+    public void onTouchMove(float x, float y)
+    {
+        // TODO implement
+
+    }
+
+    // ----------------------------------------------------------
+    /**
+     * When someone types in a new name, the name is stored and used for
+     * the new identification
+     */
+    public void onEncounterNameEditingDone() {
+        Encounter.setName(encounterName.getText().toString());
+    }
+
+}
