@@ -1,0 +1,404 @@
+package com.example.pathfinderencountertracker;
+
+import cs2114.restaurant.Node;
+import cs2114.restaurant.CircularList;
+import java.util.Iterator;
+import java.util.NoSuchElementException;
+import sofia.util.Observable;
+// -------------------------------------------------------------------------
+/**
+ * A circular, doubly-linked list.
+ *
+ * @param <E>
+ *            the type of element stored in the list
+ * @author Steven Roberts (sarj21)
+ * @version 2015.03.25
+ */
+public class CircularLinkedList<E> extends Observable
+    implements CircularList<E>
+{
+    // ~ Fields ................................................................
+
+    /**
+     * sentinel node for easy insertion
+     */
+    Node<E> s;
+
+    /**
+     * the current node
+     */
+    Node<E> curr;
+
+
+    // ~ Constructors ..........................................................
+
+    // ----------------------------------------------------------
+    /**
+     * creates a new circular linked list object
+     */
+    public CircularLinkedList()
+    {
+        s = new Node<E>(null);
+        curr = s;
+        /**
+         * current starts as the sentinel node
+         */
+    }
+
+
+    // ~ Public methods ........................................................
+
+    // ----------------------------------------------------------
+    /**
+     * gets the next elements, if the next element is the sentinel is skips it
+     */
+    public void next()
+    {
+        if (curr.next() == s)
+        {
+            curr = curr.next().next();
+        }
+        else
+        {
+            curr = curr.next();
+        }
+
+        notifyObservers();
+    }
+
+
+    // ----------------------------------------------------------
+    /**
+     * gets the previous elements, if the previous is sentinel it skips it
+     */
+    public void previous()
+    {
+        if (curr.previous() == s)
+        {
+            curr = curr.previous().previous();
+        }
+        else
+        {
+            curr = curr.previous();
+        }
+        notifyObservers();
+    }
+
+
+    // ----------------------------------------------------------
+    /**
+     * returns the data in the current elements
+     *
+     * @return the data
+     */
+    public E getCurrent()
+    {
+        if (curr != s)
+        {
+            return curr.data();
+        }
+        else
+        {
+            throw new NoSuchElementException("The list is empty");
+        }
+
+    }
+
+
+    // ----------------------------------------------------------
+    /**
+     * gets the size of the circular linked list
+     *
+     * @return the size as an int
+     */
+    public int size()
+    {
+        Node<E> end = s.previous(); // end of list
+        Node<E> start = s.next(); // start of list
+
+        if (curr == s)
+        { // this means nothing is in the list
+            return 0;
+        }
+
+        int size = 1;
+        // size is always 1 greater than the loop counts because start
+        // is not counted for.
+
+        // loops until start node reaches end
+        while (end != start)
+        {
+            start = start.next(); // cycles through list
+            size++;
+        }
+
+        return size;
+
+    }
+
+
+    // ----------------------------------------------------------
+    /**
+     * adds an item to the list before the current position
+     *
+     * @param item
+     *            is the item to be added in a node
+     */
+    public void add(E item)
+    {
+        Node<E> before;
+        Node<E> after;
+        Node<E> newNode = new Node<E>(item);
+
+        if (curr == s)
+        { // this means that the list is empty
+            s.join(newNode);
+            newNode.join(s);
+
+            curr = newNode;
+        }
+
+        else if (curr.previous() == s)
+        {
+            // this means you are at the start
+            before = s;
+            after = curr;
+
+            before.split();
+            before.join(newNode);
+
+            newNode.join(after);
+
+            curr = newNode;
+        }
+
+        else if (curr.next() == s)
+        {
+            // this means that you are at the end
+            before = curr;
+            after = s.next();
+
+            s.split();
+            before.split();
+
+            before.join(newNode);
+            newNode.join(after);
+
+            curr = newNode;
+        }
+
+        else
+        { // between two elements
+            before = curr.previous();
+            after = curr;
+
+            before.split();
+
+            before.join(newNode);
+            newNode.join(after);
+
+            curr = newNode;
+
+        }
+
+        notifyObservers();
+    }
+
+
+    // ----------------------------------------------------------
+    /**
+     * removes the current node if it is not null, if it is null it will throw a
+     * no such element exception because the list is empty
+     *
+     * @return the data in the element removed
+     */
+    public E removeCurrent()
+    {
+        Node<E> before;
+        Node<E> after;
+
+        if (curr != s)
+        {
+            E data = curr.data();
+
+            before = curr.previous();
+            after = curr.next();
+
+            curr.split(); // unlinks current node from list
+            before.split(); // removes ties from previous node to current
+
+            before.join(after); // joins node before current to node after
+
+            curr = after; // resets curr to node after removed
+            notifyObservers();
+            return data; // returns the data in the removed node
+        }
+
+        else
+        {
+            throw new NoSuchElementException("There is nothing in the list");
+        }
+
+
+    }
+
+
+    // ----------------------------------------------------------
+    /**
+     * clears out the whole list
+     */
+    public void clear()
+    {
+        while (curr != s)
+        {
+            this.removeCurrent();
+        }
+        notifyObservers();
+    }
+
+
+    // ----------------------------------------------------------
+    /**
+     * starts at the current elements and writes nodes to a string in order
+     *
+     * @return the String of nodes
+     */
+    public String toString()
+    {
+        Node<E> start = curr; // "start" of list
+        int count = this.size();
+
+        String solution = "";
+
+        if (count == 0)
+        { // this means nothing is in the list
+            return "[]";
+        }
+
+        // loops until start node reaches end
+        solution += "[";
+        while (count > 0)
+        {
+
+            solution += start.data();
+
+            if (count > 1)
+            {
+                solution += ", ";
+            }
+
+            if (start.next() == s)
+            {
+                start = start.next().next();
+            }
+
+            else
+            {
+                start = start.next();
+            }
+
+            count--;
+        }
+        solution += "]";
+        return solution;
+
+    }
+
+
+    // ----------------------------------------------------------
+    /**
+     * returns a new iterator
+     *
+     * @return an new iterator of type E
+     */
+    public Iterator<E> iterator()
+    {
+        return new CircularLinkedListIterator();
+    }
+
+
+    // ~ Inner classes .........................................................
+
+    // ----------------------------------------------------------
+    private class CircularLinkedListIterator
+        implements Iterator<E>
+    {
+        // ~ Fields ............................................................
+        /**
+         * the curr for the iterator
+         */
+        Node<E> pos;
+
+        /**
+         * the end of the list, before sentinel node
+         */
+        Node<E> end;
+
+        /**
+         * how long the list is
+         */
+        int     length;
+
+
+        // ~ Constructors ......................................................
+
+        // ----------------------------------------------------------
+        /**
+         * instantiates a new iterator
+         */
+        public CircularLinkedListIterator()
+        {
+            pos = s; // this is like current
+
+            length = size();
+        }
+
+
+        // ~ Public methods ....................................................
+
+        // ----------------------------------------------------------
+        /**
+         * true or false for if the iterator has a next node
+         *
+         * @return true or false for hasnext
+         */
+        public boolean hasNext()
+        {
+            return (length > 0);
+        }
+
+
+        // ----------------------------------------------------------
+        /**
+         * goes to the next element in the iterator
+         *
+         * @return the data
+         */
+        public E next()
+        {
+
+            if (!(hasNext()))
+            {
+                throw new NoSuchElementException("this is the end of the list");
+            }
+
+            else
+            {
+
+                pos = pos.next();
+                length--;
+                return (pos.data());
+            }
+        }
+
+
+        // ----------------------------------------------------------
+        /**
+         * removes the current element, but not really we dont have to
+         */
+        public void remove()
+        {
+            throw new UnsupportedOperationException("Don't have to do this");
+        }
+    }
+}
