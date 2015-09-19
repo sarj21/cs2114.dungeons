@@ -1,0 +1,451 @@
+package com.example.pathfinderencountertracker;
+
+// -------------------------------------------------------------------------
+/**
+ * Represents a creature with all of its stats
+ *
+ * @author Conor Ginnell
+ * @author Steven Roberts
+ * @version 2015.04.16
+ */
+public class Creature
+
+{
+
+    // Fields
+
+    /**
+     * Creature's name
+     */
+    private String   creatureName;
+
+    /**
+     * Creatures Challenge Rating (i.e. difficulty)
+     */
+    private String   challengeRating;
+
+    /**
+     * Damage type that will bypass a creature's damage resistance
+     */
+    private String   resWeakness;
+
+    /**
+     * Initiative Bonus
+     */
+    private int      initiative;
+
+    /**
+     * Armor Class
+     */
+    private int      armorClass;
+
+    /**
+     * Touch Armor Class
+     */
+    private int      touchAC;
+
+    /**
+     * Flat-Footed Armor Class
+     */
+    private int      flatFootedAC;
+
+    /**
+     * Hit points
+     */
+    private int      hitPoints;
+
+    /**
+     * Fortitude Save
+     */
+    private int      fortSave;
+
+    /**
+     * Reflex Save
+     */
+    private int      refSave;
+
+    /**
+     * Will Save
+     */
+    private int      willSave;
+
+    /**
+     * Damage Resistance
+     */
+    private int      damageRes;
+
+    /**
+     * Spell Resistance
+     */
+    private int      spellRes;
+
+    /**
+     * Base Attack Bonus
+     */
+    private int      baseAttackBonus;
+
+    /**
+     * Combat Maneuver Bonus
+     */
+    private int      combatManeuverBonus;
+
+    /**
+     * Combat Maneuver Defense
+     */
+    private int      combatManeuverDefense;
+
+    /**
+     * List of Immunities and Resistances
+     */
+    private String[] immunities;
+
+    /**
+     * List of Attacks
+     */
+    private Attack[] attacks;
+
+    /**
+     * List of Spells
+     */
+    private Spell[]  spells;
+
+
+    // ----------------------------------------------------------
+
+    /**
+     * Create a new Creature object using either user input or pregenerated
+     * monsters
+     *
+     * @param creatureName
+     *            name of the creature
+     * @param challengeRating
+     *            CR of the creature
+     * @param initiative
+     *            Initiative bonus of the creature
+     * @param armorClass
+     *            AC of the creature
+     * @param touchAC
+     *            TAC of the creature
+     * @param flatFootedAC
+     *            FFAC of the creature
+     * @param hitPoints
+     *            HP of the creature
+     * @param fortSave
+     *            Fort Save bonus of the creature
+     * @param refSave
+     *            Reflex Save bonus of the creature
+     * @param willSave
+     *            Will Save bonus of the creature
+     * @param damageRes
+     *            DR of the creature if any
+     * @param resWeakness
+     *            DR weaknesses if any
+     * @param spellRes
+     *            SR if any
+     * @param baseAttackBonus
+     *            BAB of the creature
+     * @param combatManeuverBonus
+     *            CMB of the creature
+     * @param combatManeuverDefense
+     *            CMD of the creature
+     * @param immunities
+     *            Immunities of the creature if any
+     * @param attacks
+     *            attacks of the creature
+     * @param spells
+     *            spells of the creature if any
+     */
+
+    // Constructor
+
+    public Creature(
+        String creatureName,
+        String challengeRating,
+
+        int initiative,
+        int armorClass,
+        int touchAC,
+
+        int flatFootedAC,
+        int hitPoints,
+        int fortSave,
+        int refSave,
+        int willSave,
+
+        int damageRes,
+        String resWeakness,
+        int spellRes,
+        int baseAttackBonus,
+
+        int combatManeuverBonus,
+        int combatManeuverDefense,
+        String[] immunities,
+        Attack[] attacks,
+        Spell[] spells)
+    {
+
+        this.creatureName = creatureName;
+
+        this.challengeRating = challengeRating;
+
+        this.initiative = initiative;
+
+        this.armorClass = armorClass;
+
+        this.touchAC = touchAC;
+
+        this.flatFootedAC = flatFootedAC;
+
+        this.hitPoints = hitPoints;
+
+        this.fortSave = fortSave;
+
+        this.refSave = refSave;
+
+        this.willSave = willSave;
+
+        this.damageRes = damageRes;
+
+        this.resWeakness = resWeakness;
+
+        this.spellRes = spellRes;
+
+        this.baseAttackBonus = baseAttackBonus;
+
+        this.combatManeuverBonus = combatManeuverBonus;
+
+        this.combatManeuverDefense = combatManeuverDefense;
+
+        this.immunities = immunities;
+
+        this.attacks = attacks;
+
+        this.spells = spells;
+
+    }
+
+
+    // Methods
+
+    /**
+     * get creature name
+     * @return creature name
+     */
+    public String getCreatureName()
+
+    {
+
+        return creatureName;
+
+    }
+
+
+    /**
+     * get challenge rating
+     * @return challenge rating
+     */
+    public String getChallengeRating()
+
+    {
+
+        return challengeRating;
+
+    }
+
+    /**
+     * get initiative bonus
+     * @return initiative bonus
+     */
+    public int getInitiative()
+
+    {
+
+        return initiative;
+
+    }
+
+
+    /**
+     * get armor class
+     * @return armor class
+     */
+    public int getArmorClass()
+
+    {
+
+        return armorClass;
+
+    }
+
+    /**
+     * get touch armor class
+     * @return touch armor class
+     */
+    public int getTouchAC()
+
+    {
+
+        return touchAC;
+
+    }
+
+    /**
+     * get flat footed armor class
+     * @return flat footed armor class
+     */
+    public int getFlatFootedAC()
+
+    {
+
+        return flatFootedAC;
+
+    }
+
+    /**
+     * get hit points
+     * @return hit points
+     */
+    public int getHitPoints()
+
+    {
+
+        return hitPoints;
+
+    }
+
+    /**
+     * get fortitude save
+     * @return fort save
+     */
+    public int getFortSave()
+
+    {
+
+        return fortSave;
+
+    }
+
+    /**
+     * get reflex save
+     * @return ref save
+     */
+    public int getRefSave()
+
+    {
+
+        return refSave;
+
+    }
+
+    /**
+     * get will save
+     * @return will save
+     */
+    public int getWillSave()
+
+    {
+
+        return willSave;
+
+    }
+
+    /**
+     * get damage resistance
+     * @return damage resistance
+     */
+    public int getDamageRes()
+
+    {
+
+        return damageRes;
+
+    }
+
+    /**
+     * get resistance weaknesses
+     * @return resistance weaknesses
+     */
+    public String getResWeakness()
+
+    {
+
+        return resWeakness;
+
+    }
+
+    /**
+     * get spell resistance
+     * @return spell resistance
+     */
+    public int getSpellRes()
+
+    {
+
+        return spellRes;
+
+    }
+
+    /**
+     * get BAB
+     * @return BAB
+     */
+    public int getBaseAttackBonus()
+
+    {
+
+        return baseAttackBonus;
+
+    }
+
+    /**
+     * get CMB
+     * @return CMB
+     */
+    public int getCombatManeuverBonus()
+
+    {
+
+        return combatManeuverBonus;
+
+    }
+
+    /**
+     * get CMD
+     * @return CMD
+     */
+    public int getCombatManeuverDefense()
+
+    {
+
+        return combatManeuverDefense;
+
+    }
+
+    /**
+     * get immunity list
+     * @return immunity list
+     */
+    public String[] getImmunities()
+    {
+        return immunities;
+    }
+
+    /**
+     * get attack list
+     * @return attack list
+     */
+    public Attack[] getAttacks()
+    {
+        return attacks;
+    }
+
+    /**
+     * get spell list
+     * @return spell list
+     */
+    public Spell[] getSpells()
+    {
+        return spells;
+    }
+
+}
