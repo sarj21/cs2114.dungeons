@@ -1,0 +1,68 @@
+package com.example.pathfinderencountertracker;
+
+// -------------------------------------------------------------------------
+/**
+ *  Write a one-sentence summary of your class here.
+ *  Follow it with additional details about its purpose, what abstraction
+ *  it represents, and how to use it.
+ *
+ *  @author Josh Maddox
+ *  @version Apr 6, 2015
+ */
+public class Spell
+{
+    String spellName;
+    int difficultyClass;
+    char saveType;
+    String specialNotes;
+
+    // ----------------------------------------------------------
+    /**
+     * Create a new Spell object.
+     * @param name
+     * @param freq
+     * @param diff
+     * @param save
+     * @param notes
+     */
+    public Spell(String name, int diff, char save, String notes) {
+         spellName = name;
+         difficultyClass = diff;
+         saveType = save;
+         specialNotes = notes;
+    }
+
+    /**
+     * This is the getSpellName
+     * @return getSpellName
+     */
+    public String getSpellName()
+    {
+        return spellName;
+    }
+
+    /**
+     * This is the difficultyclass
+     * @return difficultyClass
+     */
+    public int getDifficultyClass()
+    {
+        return difficultyClass;
+    }
+    /**
+     * This is the getSaveType
+     * @return saveType
+     */
+    public char getSaveType()
+    {
+        return saveType;
+    }
+    /**
+     * This is the special notes
+     * @return specialNotes
+     */
+    public String getSpecialNotes()
+    {
+        return specialNotes;
+    }
+}
